@@ -11,23 +11,25 @@ import sys
 import subprocess
 import tempfile
 
-BASEDIR = '/usr/local/share/libvirt'
-IMAGE_DIR = '/var/lib/libvirt/images'
+BASEDIR = '/data'
+APPDIR = '/data/vm-easy-deploy'
+IMAGE_DIR = '/data/images'
+TEMPLATE_DIR = '/data/templates'
 RAMDISK_DIR = ''
 
 # bridge interface directly connected to the Internet (or your intranet)
 # It can be configured by the config file
-PUBLIC_BRIDGE = 'br0'
+PUBLIC_BRIDGE = 'virbr0'
 
-CONFIG_FILE_NAME = '.easydeployrc'
-DEFAULT_TEMPLATE = os.path.join(BASEDIR, 'templates/libvirt.xml')
+CONFIG_FILE_NAME = 'easydeployrc'
+DEFAULT_TEMPLATE = os.path.join(APPDIR, 'templates/libvirt.xml')
 DEFAULT_NUM_CPU = 2
 DEFAULT_MEMORY = 4  # GB
 BASE_SLOT = 0x07
-BASEIMAGE_DIR = os.path.join(BASEDIR, 'images')
-CMD_SET_VMNAME = os.path.join(BASEDIR, 'subcmds', 'set-vm-name.sh')
-CMD_COPY_IMAGE = os.path.join(BASEDIR, 'subcmds', 'copy_image.sh')
-CMD_CHECK_IMAGE = os.path.join(BASEDIR, 'subcmds', 'check_image.sh')
+BASEIMAGE_DIR = os.path.join(BASEDIR, 'templates')
+CMD_SET_VMNAME = os.path.join(APPDIR, 'subcmds', 'set-vm-name.sh')
+CMD_COPY_IMAGE = os.path.join(APPDIR, 'subcmds', 'copy_image.sh')
+CMD_CHECK_IMAGE = os.path.join(APPDIR, 'subcmds', 'check_image.sh')
 
 mac_dict = {}
 
@@ -207,7 +209,7 @@ def parseArgs():
 
 def loadConfig():
     global mac_dict
-    conf_file = os.path.join(os.environ.get('HOME'), CONFIG_FILE_NAME)
+    conf_file = os.path.join(APPDIR, CONFIG_FILE_NAME)
     conf = ConfigParser.SafeConfigParser()
     conf.read(conf_file)
     if conf.has_section('mac'):

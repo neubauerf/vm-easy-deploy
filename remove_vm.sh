@@ -1,14 +1,15 @@
 #!/bin/sh
 
-IMAGE_DIR=/var/lib/libvirt/images
+IMAGE_DIR=/data/images
 RAMDISK_DIR=/mnt/ramdisk/images
+APPDIR=/data/vm-easy-deploy
 FORCE=0
 
 export LANG=C
 export LC_ALL=C
 
 BASEDIR=$(dirname $0)
-RM_IMAGE=${BASEDIR}/subcmds/remove_image.sh
+RM_IMAGE=${APPDIR}/subcmds/remove_image.sh
 
 #if [ `whoami` != "root" ]; then
 #  echo "Please use 'sudo'. This command requires root priviledge."
