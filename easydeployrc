@@ -1,5 +1,5 @@
 [default]
-public_bridge=virbr1
+public_bridge=virbr0
 
 [mac]
 cs1     =       52:54:00:1d:aa:01
