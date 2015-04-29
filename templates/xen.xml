@@ -1,0 +1,68 @@
+<domain type='kvm'>
+  <name>{{name}}</name>
+  <memory>{{memory}}</memory>
+  <vcpu>{{cpu}}</vcpu>
+  <os>
+    <type arch='x86_64' machine='pc'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <cpu mode='custom' match='exact'>
+    <model fallback='allow'>cpu64-rhel6</model>
+    <feature policy='require' name='vmx'/>
+  </cpu>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+	  <emulator>/usr/libexec/qemu-kvm</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='{{format}}'/>
+      <source file='/data/images/{{name}}.img'/>
+      <target dev='hda' bus='ide'/>
+    </disk>
+    <disk type='block' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <target dev='hdc' bus='ide'/>
+      <readonly/>
+      <address type='drive' controller='0' bus='1' unit='0'/>
+    </disk>
+    <controller type='ide' index='0'>
+    </controller>
+{% for nic in nics %}
+{% if nic['net_type'] == 'NAT' or nic['net_type'] == 'NETWORK' %}
+    <interface type='network'>
+      <source network='{{nic['net_name']}}'/>
+{% else %}
+    <interface type='bridge'>
+      <source bridge='{{nic['net_name']}}'/>
+{% endif %}
+      <mac address='{{nic['mac']}}'/>
+      <model type='rtl8139'/>
+{% if nic['targetdev'] %}
+      <target dev='{{nic['targetdev']}}'/>
+{% endif %}
+    </interface>
+{% endfor %}
+    <serial type='pty'>
+      <target port='0'/>
+    </serial>
+    <console type='pty'>
+      <target type='serial' port='0'/>
+    </console>
+    <input type='mouse' bus='ps2'/>
+    <graphics type='vnc' port='-1' autoport='yes'/>
+    <sound model='ich6'>
+    </sound>
+    <video>
+      <model type='cirrus' vram='9216' heads='1'/>
+    </video>
+    <memballoon model='virtio'>
+    </memballoon>
+  </devices>
+</domain>
