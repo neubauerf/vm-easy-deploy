@@ -43,7 +43,7 @@
       <source bridge='{{nic['net_name']}}'/>
 {% endif %}
       <mac address='{{nic['mac']}}'/>
-      <model type='rtl8139'/>
+      <model type='e1000'/>
 {% if nic['targetdev'] %}
       <target dev='{{nic['targetdev']}}'/>
 {% endif %}
