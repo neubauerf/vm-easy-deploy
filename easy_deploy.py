@@ -22,7 +22,7 @@ RAMDISK_DIR = ''
 PUBLIC_BRIDGE = 'virbr0'
 
 CONFIG_FILE_NAME = 'easydeployrc'
-DEFAULT_TEMPLATE = os.path.join(APPDIR, 'templates/libvirt.xml')
+DEFAULT_TEMPLATE = os.path.join(APPDIR, 'templates/centos.xml')
 DEFAULT_NUM_CPU = 2
 DEFAULT_MEMORY = 4  # GB
 BASE_SLOT = 0x07
@@ -189,7 +189,7 @@ def parseArgs():
                         default=DEFAULT_NUM_CPU)
     parser.add_argument('-m', '--memory', help='memory size [GB]', type=int,
                         default=DEFAULT_MEMORY)
-    parser.add_argument('-i', '--nic', action='append', default=[],
+    parser.add_argument('-i', '--nic', action='append', default=['pub'],
                         help='NIC (bridge_name or "NAT").'
                         ' Specify multiple times if you want multiple vNICs.')
     parser.add_argument('-H', '--no-hostname', action='store_false',
